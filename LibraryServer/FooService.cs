@@ -1,6 +1,6 @@
 ﻿namespace LibraryServer
 {
-    public class Foo
+    public class FooService
     {
         public FooResult Get()
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Reflection;
 using Newtonsoft.Json;
@@ -33,18 +34,18 @@ namespace Client
 
     public class LibraryClient : IProxy
     {
-        private const string Path = @"c:\users\rpuskas\documents\visual studio 2013\Projects\ProxySpike\LibraryServer\bin\Debug\LibraryServer.dll";
+        private const string AssemblyPath = @"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll";
 
         public BarResult Get()
         {
-            var result = Result("LibraryServer.Foo", "Get", null);
+            var result = Result("LibraryServer.FooService", "Get", null);
             var serializeObject = JsonConvert.SerializeObject(result);
             return JsonConvert.DeserializeObject<BarResult>(serializeObject);
         }
 
         private static object Result(string libraryserverFoo, string name, object[] objects)
         {
-            var assembly = Assembly.LoadFile(Path);
+            var assembly = Assembly.LoadFile(Path.GetFullPath(AssemblyPath));
             var type = assembly.GetType(libraryserverFoo);
             var instance = Activator.CreateInstance(type);
             return type.InvokeMember(name, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public, null, instance, objects);
