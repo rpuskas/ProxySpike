@@ -1,71 +1,59 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using System.Linq;
 using NUnit.Framework;
 
 namespace Client
 {
     [TestFixture]
-    public class TestClient
+    public class UnreferencedLibraryServerFixture
     {
-        [Test]
-        public void ShouldGetDataFromUnreferencedLibraryServer()
+        protected IProxy Service;
+
+        [SetUp]
+        public void Setup()
         {
-            var barResult = new LibraryClient().Get();
-            Assert.AreEqual(barResult.Name,"FooResult");
-            Assert.AreEqual(barResult.Age,1);
+            Service = new LibraryClient("LibraryServer.FooService");
         }
 
         [Test]
-        public void ShouldGetDataFromUnreferencedConsoleServer()
+        public void Should_Invoke_With_Primitive_Type_Parameter()
         {
-            var barResult = new ConsoleClient().Get();
-            Assert.AreEqual(barResult.Name, "FooResult");
-            Assert.AreEqual(barResult.Age, 1);
+            Assert.AreEqual("One", Service.Get(1).Name);
+            Assert.AreEqual("Two", Service.Get(2).Name);
+        }
+
+        [Test]
+        public void Should_Invoke_With_Comple_Type_Parameters()
+        {
+            Assert.AreEqual("One", Service.Search(new BarQuery { Name = "One" }).Single().Name);
+            Assert.AreEqual("Two", Service.Search(new BarQuery { Name = "Two" }).Single().Name);
+            Assert.AreEqual(2, Service.Search(new BarQuery { Name = "Twins" }).Count());
         }
     }
 
-    public interface IProxy
+    [TestFixture]
+    public class ConsoleLibraryServerFixutre
     {
-        BarResult Get();
-    }
+        protected IProxy Service;
 
-    public class LibraryClient : IProxy
-    {
-        private const string AssemblyPath = @"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll";
-
-        public BarResult Get()
+        [SetUp]
+        public void Setup()
         {
-            var result = Result("LibraryServer.FooService", "Get", null);
-            var serializeObject = JsonConvert.SerializeObject(result);
-            return JsonConvert.DeserializeObject<BarResult>(serializeObject);
+            Service = new ConsoleClient("http://localhost:8081");
         }
 
-        private static object Result(string libraryserverFoo, string name, object[] objects)
+        [Test]
+        public void Should_Invoke_With_Primitive_Type_Parameter()
         {
-            var assembly = Assembly.LoadFile(Path.GetFullPath(AssemblyPath));
-            var type = assembly.GetType(libraryserverFoo);
-            var instance = Activator.CreateInstance(type);
-            return type.InvokeMember(name, BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public, null, instance, objects);
+            Assert.AreEqual("One", Service.Get(1).Name);
+            Assert.AreEqual("Two", Service.Get(2).Name);
         }
-    }
 
-    public class ConsoleClient : IProxy
-    {
-        public BarResult Get()
+        [Test]
+        public void Should_Invoke_With_Comple_Type_Parameters()
         {
-            var httpClient = new HttpClient();
-            var httpResponseMessage = httpClient.GetAsync("http://localhost:8081").Result;
-            var response = httpResponseMessage.Content.ReadAsStringAsync().Result;
-            return JsonConvert.DeserializeObject<BarResult>(response);
+            Assert.AreEqual("One", Service.Search(new BarQuery { Name = "One" }).Single().Name);
+            Assert.AreEqual("Two", Service.Search(new BarQuery { Name = "Two" }).Single().Name);
+            Assert.AreEqual(2, Service.Search(new BarQuery { Name = "Twins" }).Count());
         }
-    }
-
-    public class BarResult
-    {
-        public object Name { get; set; }
-        public int Age { get; set; }
     }
 }
