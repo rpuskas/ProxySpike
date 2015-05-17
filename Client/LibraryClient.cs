@@ -29,10 +29,10 @@ namespace Client
 
         private object Result(string libraryserverFoo, string methodName, object[] objects)
         {
-            var assembly = Assembly.LoadFile(Path.GetFullPath(_assemblyPath));
+            var assembly = Assembly.LoadFrom(Path.GetFullPath(_assemblyPath));
             var classInstance = Activator.CreateInstance(assembly.GetType(libraryserverFoo));
             var parameterTypes = assembly.GetType(libraryserverFoo).GetMethod(methodName).GetParameters();
-            var convertedParameters = objects.Select((t, i) => Extensions.MapTo(t, parameterTypes[i].ParameterType)).ToArray();
+            var convertedParameters = objects.Select((t, i) => t.MapTo(parameterTypes[i].ParameterType)).ToArray();
 
             const BindingFlags bindingFlags = BindingFlags.InvokeMethod | BindingFlags.Instance | BindingFlags.Public;
             return assembly.GetType(libraryserverFoo).InvokeMember(methodName, bindingFlags, null, classInstance, convertedParameters );
