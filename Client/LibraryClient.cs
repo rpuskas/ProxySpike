@@ -8,11 +8,12 @@ namespace Client
 {
     public class LibraryClient : IProxy
     {
+        private readonly string _assemblyPath;
         private readonly string _className;
-        private const string AssemblyPath = @"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll";
 
-        public LibraryClient(string className)
+        public LibraryClient(string assemblyPath, string className)
         {
+            _assemblyPath = assemblyPath;
             _className = className;
         }
 
@@ -26,9 +27,9 @@ namespace Client
             return Result(_className, "Search", new object[] { query }).MapTo<IEnumerable<BarResult>>();
         }
 
-        private static object Result(string libraryserverFoo, string methodName, object[] objects)
+        private object Result(string libraryserverFoo, string methodName, object[] objects)
         {
-            var assembly = Assembly.LoadFile(Path.GetFullPath(AssemblyPath));
+            var assembly = Assembly.LoadFile(Path.GetFullPath(_assemblyPath));
             var classInstance = Activator.CreateInstance(assembly.GetType(libraryserverFoo));
             var parameterTypes = assembly.GetType(libraryserverFoo).GetMethod(methodName).GetParameters();
             var convertedParameters = objects.Select((t, i) => Extensions.MapTo(t, parameterTypes[i].ParameterType)).ToArray();

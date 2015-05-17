@@ -11,7 +11,7 @@ namespace Client
         [SetUp]
         public void Setup()
         {
-            Service = new LibraryClient("LibraryServer.FooService");
+            Service = new LibraryClient(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll", "LibraryServer.FooService");
         }
 
         [Test]
