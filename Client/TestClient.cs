@@ -6,12 +6,12 @@ namespace Client
     [TestFixture]
     public class UnreferencedLibraryServerFixture
     {
-        protected IProxy Service;
+        protected IFooServiceProxy Service;
 
         [SetUp]
         public void Setup()
         {
-            Service = new LibraryClient(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll", "LibraryServer.FooService");
+            Service = new LibraryFooServiceProxy(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll", "LibraryServer.FooService");
         }
 
         [Test]
@@ -33,12 +33,12 @@ namespace Client
     [TestFixture]
     public class ConsoleLibraryServerFixutre
     {
-        protected IProxy Service;
+        protected IFooServiceProxy Service;
 
         [SetUp]
         public void Setup()
         {
-            Service = new ConsoleClient("http://localhost:8081");
+            Service = new HttpProxy("http://localhost:8081");
         }
 
         [Test]

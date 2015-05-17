@@ -6,7 +6,7 @@ namespace LibraryServer
 {
     public class TypeRegistry
     {
-        public void Configure(IUnityContainer container)
+        public TypeRegistry(IUnityContainer container)
         {
             var fooRepository = new FooRepository();
             container.RegisterInstance(fooRepository);
@@ -16,11 +16,6 @@ namespace LibraryServer
     public class FooService
     {
         private readonly FooRepository _fooRepository;
-
-        public FooService()
-        {
-            
-        }
 
         public FooService(FooRepository fooRepository)
         {

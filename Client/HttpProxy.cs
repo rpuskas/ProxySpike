@@ -5,12 +5,12 @@ using Newtonsoft.Json;
 
 namespace Client
 {
-    public class ConsoleClient : IProxy
+    public class HttpProxy : IFooServiceProxy
     {
         private readonly string _httpLocalhost;
         private readonly HttpClient _httpClient;
 
-        public ConsoleClient(string httpLocalHost)
+        public HttpProxy(string httpLocalHost)
         {
             _httpLocalhost = httpLocalHost;
             _httpClient = new HttpClient();
