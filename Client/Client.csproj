@@ -50,10 +50,11 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpProxy.cs" />
+    <Compile Include="ClassProxy.cs" />
+    <Compile Include="FooServiceHttpProxy.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="IFooServiceProxy.cs" />
-    <Compile Include="LibraryFooServiceProxy.cs" />
+    <Compile Include="IFooService.cs" />
+    <Compile Include="FooServiceClassProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestClient.cs" />
   </ItemGroup>

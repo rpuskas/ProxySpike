@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
+using System.Reflection;
+using Microsoft.Practices.Unity;
 using NUnit.Framework;
 
 namespace Client
@@ -6,12 +9,13 @@ namespace Client
     [TestFixture]
     public class UnreferencedLibraryServerFixture
     {
-        protected IFooServiceProxy Service;
+        protected IFooService Service;
 
         [SetUp]
         public void Setup()
         {
-            Service = new LibraryFooServiceProxy(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll", "LibraryServer.FooService");
+            var assembly = Assembly.LoadFrom(Path.GetFullPath(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll"));
+            Service = new FooServiceClassProxy("LibraryServer.FooService", new UnityContainer(), assembly);
         }
 
         [Test]
@@ -33,12 +37,12 @@ namespace Client
     [TestFixture]
     public class ConsoleLibraryServerFixutre
     {
-        protected IFooServiceProxy Service;
+        protected IFooService Service;
 
         [SetUp]
         public void Setup()
         {
-            Service = new HttpProxy("http://localhost:8081");
+            Service = new FooServiceHttpProxy("http://localhost:8081");
         }
 
         [Test]

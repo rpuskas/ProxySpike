@@ -4,9 +4,9 @@ using Microsoft.Practices.Unity;
 
 namespace LibraryServer
 {
-    public class TypeRegistry
+    public class Bootstrapper
     {
-        public TypeRegistry(IUnityContainer container)
+        public Bootstrapper(IUnityContainer container)
         {
             var fooRepository = new FooRepository();
             container.RegisterInstance(fooRepository);

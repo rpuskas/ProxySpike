@@ -2,7 +2,7 @@
 
 namespace Client
 {
-    public interface IFooServiceProxy
+    public interface IFooService
     {
         BarResult Get(int id);
         IEnumerable<BarResult> Search(BarQuery query);
