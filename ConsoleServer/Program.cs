@@ -28,12 +28,12 @@ namespace ConsoleServer
                 {
                     case "/Get":
                         nameValueCollection = request.QueryString;
-                        action = () => new FooService().Get(int.Parse(nameValueCollection["id"]));
+                        action = () => new FooService(new FooRepository()).Get(int.Parse(nameValueCollection["id"]));
                         break;
                     case "/Search":
                         nameValueCollection = request.QueryString;
                         var fooQuery = new FooService.FooQuery { Name = nameValueCollection["name"] };
-                        action = () => new FooService().Search(fooQuery);
+                        action = () => new FooService(new FooRepository()).Search(fooQuery);
                         break;
                     default:
                         action = () => null;

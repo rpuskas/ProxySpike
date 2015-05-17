@@ -1,18 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Practices.Unity;
 
 namespace LibraryServer
 {
+    public class TypeRegistry
+    {
+        public void Configure(IUnityContainer container)
+        {
+            var fooRepository = new FooRepository();
+            container.RegisterInstance(fooRepository);
+        }
+    }
+
     public class FooService
     {
+        private readonly FooRepository _fooRepository;
+
+        public FooService()
+        {
+            
+        }
+
+        public FooService(FooRepository fooRepository)
+        {
+            _fooRepository = fooRepository;
+        }
+
         public FooResult Get(int id)
         {
-            return FooRepository.All().Single(i => i.Id == id);
+            return _fooRepository.All().Single(i => i.Id == id);
         }
 
         public IEnumerable<FooResult> Search(FooQuery query)
         {
-            return FooRepository.All().Where(i => i.Name == query.Name);
+            return _fooRepository.All().Where(i => i.Name == query.Name);
         }
 
         public class FooQuery
@@ -37,7 +59,7 @@ namespace LibraryServer
 
     public class FooRepository
     {
-        public static IEnumerable<FooService.FooResult> All()
+        public IEnumerable<FooService.FooResult> All()
         {
             return new[]
             {
