@@ -51,12 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassProxy.cs" />
+    <Compile Include="ConsoleLibraryServerFixutre.cs" />
+    <Compile Include="AllRequiredConverter.cs" />
     <Compile Include="FooServiceHttpProxy.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IFooService.cs" />
     <Compile Include="FooServiceClassProxy.cs" />
+    <Compile Include="JsonCreationConverter.cs" />
+    <Compile Include="MappingFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestClient.cs" />
+    <Compile Include="UnreferencedLibraryServerFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
