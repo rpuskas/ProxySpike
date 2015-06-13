@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
 
 namespace Client
@@ -11,7 +9,7 @@ namespace Client
         public static T MapTo<T>(this object value)
         {
             var serializeObject = JsonConvert.SerializeObject(value);
-            return JsonConvert.DeserializeObject<T>(serializeObject,new AllRequiredConverter<T>());
+            return JsonConvert.DeserializeObject<T>(serializeObject);
         }
 
         public static object MapTo(this object value, Type t)

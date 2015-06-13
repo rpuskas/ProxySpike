@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Client
@@ -10,6 +10,7 @@ namespace Client
         private Set _set;
         private Subset _subset;
 
+        [JsonObject(ItemRequired = Required.Always)]
         public class Set
         {
             public object A { get; set; }
@@ -42,7 +43,7 @@ namespace Client
         [Test]
         public void WhenTargetTypeIsSet()
         {
-            Assert.Throws<ApplicationException>(() => _subset.MapTo<Set>());
+            Assert.Throws<JsonSerializationException>(() => _subset.MapTo<Set>());
         }
 
         [Test]
@@ -63,7 +64,7 @@ namespace Client
         public void ShouldMaWhenNestedTargetTypeIsSet()
         {
             var parentOfSet = new ParentOfSubset { B = _subset };
-            Assert.Throws<ApplicationException>(() => parentOfSet.MapTo<ParentOfSet>());
+            Assert.Throws<JsonSerializationException>(() => parentOfSet.MapTo<ParentOfSet>());
         }
     }
 }
