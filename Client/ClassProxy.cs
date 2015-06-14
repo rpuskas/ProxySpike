@@ -8,7 +8,8 @@ namespace Client
     public abstract class ClassProxy 
     {
         protected readonly object ClassInstance;
-        private const BindingFlags BindingFlags = System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
+        private const BindingFlags BindingFlags = 
+            System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
 
         protected ClassProxy(string className, IUnityContainer container, Assembly assembly)
         {
