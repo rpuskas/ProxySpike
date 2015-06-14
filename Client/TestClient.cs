@@ -14,7 +14,7 @@ namespace Client
         [SetUp]
         public void Setup()
         {
-            var assembly = Assembly.LoadFrom(Path.GetFullPath(@"..\..\..\LibraryServer\bin\Debug\LibraryServer.dll"));
+            var assembly = Assembly.LoadFrom(Path.GetFullPath(@"../../../LibraryServer/bin/Debug/LibraryServer.dll"));
             Service = new FooServiceClassProxy("LibraryServer.FooService", new UnityContainer(), assembly);
         }
 

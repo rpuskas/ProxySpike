@@ -15,6 +15,8 @@ namespace ConsoleServer
             httpListener.Prefixes.Add("http://localhost:8081/");
             httpListener.Start();
 
+			Console.WriteLine ("Staring on port: 8081");
+
             while (true)
             {
                 var context = httpListener.GetContext();
